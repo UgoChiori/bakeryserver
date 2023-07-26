@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/maps/place", async (req, res) => {
-  const { latitude, longitude, radius, type } = req.query;
+  const { latitude, longitude, radius } = req.query;
   const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=bakery,bakers,cakes,cafe&key=${process.env.GOOGLE_MAPS_API_KEY}`;
   try {
     const response = await fetch(url);
