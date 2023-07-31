@@ -16,6 +16,11 @@ app.get("/", (req, res) => {
 app.get("/api/maps/place", async (req, res) => {
   const { latitude, longitude, radius } = req.query;
   const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=cake,coffee,dessert,bakers,bakery&key=${process.env.GOOGLE_MAPS_API_KEY}&location=${latitude},${longitude}&radius=${radius}`;
+
+if(nextPageToken){
+  const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=${nextPageToken}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+}
+
     try {
     const response = await fetch(url);
     const data = await response.json();
