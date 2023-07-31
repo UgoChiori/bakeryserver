@@ -14,18 +14,36 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/maps/place", async (req, res) => {
-  const { latitude, longitude, radius } = req.query;
-  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=cake,coffee,dessert,bakers,bakery&key=${process.env.GOOGLE_MAPS_API_KEY}&location=${latitude},${longitude}&radius=${radius}`;
-  // const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=bakery,bakers,cakes,cafe&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-  try {
+  const{radius} = req.query;
+  const{latitude, longitude}= req.headers;//Get the latitude and longitude from the request headers
+  if(!latitude || !longitude){
+    res.status(400).json({error: "User location not found"});
+  }
+  const url =`https://maps.googleapis.com/maps/api/place/nearbysearch/json?query=cake,coffee,dessert,bakers,bakery&key=${process.env.GOOGLE_MAPS_API_KEY}&location=${latitude},${longitude}&radius=${radius}`;
+
+  try{
     const response = await fetch(url);
     const data = await response.json();
     res.json(data);
-  } catch (error) {
+  }catch(error){
     console.log(error);
-    res.status(500).json({ error: "Something is wrong" });
+    res.status(500).json({error: "Something is wrong"});
   }
 });
+
+
+// app.get("/api/maps/place", async (req, res) => {
+//   const { latitude, longitude, radius } = req.query;
+//   const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=cake,coffee,dessert,bakers,bakery&key=${process.env.GOOGLE_MAPS_API_KEY}&location=${latitude},${longitude}&radius=${radius}`;
+//     try {
+//     const response = await fetch(url);
+//     const data = await response.json();
+//     res.json(data);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: "Something is wrong" });
+//   }
+// });
 
 app.get("/api/maps/directions", async (req, res) => {
   const { origin, destination } = req.query;
