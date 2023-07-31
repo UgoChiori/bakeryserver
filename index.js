@@ -17,11 +17,7 @@ app.get("/api/maps/place", async (req, res) => {
   const { latitude, longitude, radius } = req.query;
   const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=cake,coffee,dessert,bakers,bakery&key=${process.env.GOOGLE_MAPS_API_KEY}&location=${latitude},${longitude}&radius=${radius}`;
 
-if(nextPageToken){
-  const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=${nextPageToken}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-}
-
-    try {
+  try {
     const response = await fetch(url);
     const data = await response.json();
     res.json(data);
@@ -71,11 +67,8 @@ app.get("/api/maps/place/next", async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-    });
-
-
-
+  console.log(`Server is running on port ${port}`);
+});
 
 // import express from "express";
 // import * as dotenv from "dotenv";
@@ -186,7 +179,6 @@ app.listen(port, () => {
 //   }
 // });
 
-
 // // app.get("/api/maps/place", async (req, res) => {
 // //   const{radius} = req.query;
 // //   const{latitude, longitude}= req.headers;//Get the latitude and longitude from the request headers
@@ -204,7 +196,6 @@ app.listen(port, () => {
 // //     res.status(500).json({error: "Something is wrong"});
 // //   }
 // // });
-
 
 // // app.get("/api/maps/place", async (req, res) => {
 // //   const { latitude, longitude, radius } = req.query;
